@@ -18,9 +18,11 @@ body {
     margin: 10px;
     background-color: #c6d0e8f7;
     box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    transition: transform .3s;
-    transform: translate3d(0,-1px,0);
 
+}
+
+div {
+    display: block;
 }
 
 .item img {
@@ -60,7 +62,7 @@ img {
 
 .carousel {
     margin-bottom: 30px;
-    overflow: hidden;
+   
 }
 
 .carousel, .items {
@@ -76,4 +78,21 @@ img {
     content: '';
     clear: both;
     display: table;
+}
+
+.carousel-next, .carousel-prev {
+
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #FFF url(./right.svg) center center no-repeat;
+    background-size: 20px 20px ;
+    top: 50%;
+    margin-top: -20px;
+    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+    cursor: pointer;
+    border-radius: 50%;
+
+
+
 }
