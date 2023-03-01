@@ -1,11 +1,18 @@
 class Carousel {
 
+        /**
+     * This callback is displayed as a global member.
+     * @callback moveCallback
+     * @param {number} index
+     */
+
     /**
      * 
      * @param {HTMLElement} element 
      * @param {Object} options 
-     * @param {Object} options.slidesToScroll Nombre d'éléments à faire défiler
-     * @param {Object} options.slidesVisible Nombre d'éléments visibles lors d'un scroll
+     * @param {Object} [options.slidesToScroll == 1] Nombre d'éléments à faire défiler
+     * @param {Object} [options.slidesVisible == 1] Nombre d'éléments visibles lors d'un slides
+     * @param {boolean} [options.loop == false] doit-on boucler en fin de slide
      */
     constructor (element, options = {}) {
 
@@ -13,7 +20,8 @@ class Carousel {
         this.options = Object.assign({},
             {
                 slidesToScroll : 1,
-                slidesVisible : 1
+                slidesVisible : 1,
+                loop : false
 
             }, options)
 
@@ -23,6 +31,7 @@ class Carousel {
         this.container = this.createDivWithClass('carousel-container')
         this.root.appendChild(this.container)
         this.element.appendChild(this.root)
+        this.moveCallbacks = []
         
 
         this.items = children.map((child) => {
@@ -63,6 +72,29 @@ class Carousel {
 
         nextButton.addEventListener('click',this.next.bind(this))
         prevButton.addEventListener('click',this.prev.bind(this))
+        if (this.options.loop == false) {
+            return
+        }
+        this.onMove(index => {
+            if (index == 0){
+
+                prevButton.classList.add('carousel-prev-hidden')
+
+            } else {
+
+                prevButton.classList.remove('carousel-prev-hidden')
+            }
+
+            if (this.items[this.currentItem + this.options.slidesVisible] == undefined){
+
+                nextButton.classList.add('carousel-next-hidden')
+
+            } else {
+
+                nextButton.classList.remove('carousel-next-hidden')
+
+            }
+        })
 
     }
 
@@ -88,7 +120,7 @@ class Carousel {
 
             index = this.items.length - this.options.slidesVisible
 
-        } else if (index >= this.items.length){
+        } else if (index >= this.items.length || this.items[this.currentItem + this.options.slidesVisible] == undefined && index > this.currentItem){
 
             index = 0
 
@@ -98,6 +130,17 @@ class Carousel {
         let translateX = index * -100/ this.items.length
         this.container.style.transform = 'translate3d('+ translateX +'%,0,0)' 
         this.currentItem = index
+        this.moveCallbacks.forEach(cb => cb(index))
+
+    }
+
+    /**
+     * 
+     * @param {carousel~moveCallback} cb 
+     */
+    onMove (cb) {
+
+        this.moveCallbacks.push(cb)
 
     }
 
@@ -125,11 +168,21 @@ document.addEventListener('DOMContentLoaded',function () {
     new Carousel(document.querySelector('#carousel1'),{
         slidesToScroll: 2,
         slidesVisible: 3,
+        loop : true
     })
 
     new Carousel(document.querySelector('#carousel2'),{
+
+        slidesToScroll : 2,
+        slidesVisible : 2,
+        loop : false
         
     })
+
+    new Carousel(document.querySelector('#carousel3'),{
+        
+    })
+    
 
 })
 

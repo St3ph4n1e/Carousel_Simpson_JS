@@ -1,8 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+   
+}
 body {
     font-family: sans-serif;
     padding: 0 50px 50px;
     background: linear-gradient(45deg,#d529aae7,#ebe347) 50% no-repeat;
     line-height: 1.4;
+    overflow-x: hidden;
+    
 }
 
 .title {
@@ -18,7 +25,13 @@ body {
     margin: 10px;
     background-color: #c6d0e8f7;
     box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+    transition: transform .3s;
 
+}
+
+.item:hover {
+
+    transform: scale(0.95), translate3d(0,-45px,0) ;
 }
 
 div {
@@ -62,6 +75,7 @@ img {
 
 .carousel {
     margin-bottom: 30px;
+    overflow: visible;
    
 }
 
@@ -72,6 +86,12 @@ img {
 .carousel-item {
     float: left;
    
+}
+
+.carousel-container {
+
+    transition: transform 0.3s;
+    transform: translate3d(0,0,0);
 }
 
 .carousel-container::after {
@@ -85,14 +105,33 @@ img {
     position: absolute;
     width: 40px;
     height: 40px;
-    background-color: #FFF url(./right.svg) center center no-repeat;
+    background: #FFF url(right.svg) center center no-repeat;
     background-size: 20px 20px ;
     top: 50%;
     margin-top: -20px;
+    right: -20px;
     box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
     cursor: pointer;
     border-radius: 50%;
+    transition: transform 0.3s, opacity 0.3s;
 
 
+}
 
+.carousel-prev {
+
+    right: auto;
+    left: -20px;
+    background-image: url(left.svg);
+    
+
+}
+
+.carousel-next:hover, .carousel-prev:hover {
+
+    transform: scale(1.2);
+}
+
+.carousel-prev-hidden, .carousel-next-hidden {
+    opacity: 0;
 }
