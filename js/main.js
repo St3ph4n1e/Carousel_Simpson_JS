@@ -84,8 +84,19 @@ class Carousel {
      */
     goToItem (index) {
 
+        if (index < 0){
+
+            index = this.items.length - this.options.slidesVisible
+
+        } else if (index >= this.items.length){
+
+            index = 0
+
+        }
+
+
         let translateX = index * -100/ this.items.length
-        this.container.style.transform = 'translate3d('+ translateX +',0,0)' + "%"
+        this.container.style.transform = 'translate3d('+ translateX +'%,0,0)' 
         this.currentItem = index
 
     }
@@ -112,8 +123,12 @@ class Carousel {
 document.addEventListener('DOMContentLoaded',function () {
   
     new Carousel(document.querySelector('#carousel1'),{
-        slidesToScroll: 3,
+        slidesToScroll: 2,
         slidesVisible: 3,
+    })
+
+    new Carousel(document.querySelector('#carousel2'),{
+        
     })
 
 })
